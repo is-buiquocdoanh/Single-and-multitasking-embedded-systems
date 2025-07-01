@@ -1,0 +1,15 @@
+../Core/Src/main.c:86:6:parse_command	18
+../Core/Src/main.c:123:6:task_sensor	2
+../Core/Src/main.c:132:6:task_lcd	5
+../Core/Src/main.c:172:6:task_uart_tx	1
+../Core/Src/main.c:179:6:task_motor	3
+../Core/Src/main.c:201:6:loop_scheduler	7
+../Core/Src/main.c:230:5:main	1
+../Core/Src/main.c:302:6:SystemClock_Config	3
+../Core/Src/main.c:342:13:MX_I2C1_Init	2
+../Core/Src/main.c:376:13:MX_I2C2_Init	2
+../Core/Src/main.c:410:13:MX_TIM2_Init	4
+../Core/Src/main.c:459:13:MX_USART1_UART_Init	2
+../Core/Src/main.c:492:13:MX_GPIO_Init	1
+../Core/Src/main.c:520:6:HAL_UART_RxCpltCallback	4
+../Core/Src/main.c:544:6:Error_Handler	1
