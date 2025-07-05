@@ -1,6 +1,6 @@
-# Embedded System Project: Non-Preemptive Event-Triggered Scheduling
+# Embedded System Project.
 
-This repository contains the firmware code for an embedded system project implemented on STM32F1 using the **Non-Preemptive Event-Triggered Scheduling** model. The system integrates multiple peripherals such as AHT10 (temperature & humidity sensor), HD44780 LCD, UART communication, and PWM motor control.
+This repository contains the firmware code for an embedded system project implemented on STM32F1 using the **Non-Preemptive Event-Triggered Scheduling, Fixed Prioritized Pre-emptive Scheduling with Time Slicing** model. The system integrates multiple peripherals such as AHT10 (temperature & humidity sensor), HD44780 LCD, UART communication, and PWM motor control.
 
 ## 📋 Project Description
 
