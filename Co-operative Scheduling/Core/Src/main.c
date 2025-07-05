@@ -507,7 +507,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 void StartSensorTask(void *argument)
 {
   /* USER CODE BEGIN 5 */
-
+	TickType_t LastWakeTime = osKernelGetTickCount();
 	/* Infinite loop */
 	for (;;) {
 		if (AHT10_ReadRaw(&aht10, &hum_raw, &temp_raw)) {
@@ -517,7 +517,8 @@ void StartSensorTask(void *argument)
 			temperature = temp;
 			humidity = hum;
 		}
-		osDelay(2000);
+		osDelayUntil(LastWakeTime + pdMS_TO_TICKS(2000));
+		LastWakeTime = osKernelGetTickCount();
 		taskYIELD();
 	}
   /* USER CODE END 5 */
@@ -534,27 +535,46 @@ void StartLCDTask(void *argument)
 {
   /* USER CODE BEGIN StartLCDTask */
 	char lcd_buf[32];
+	TickType_t LastWakeTime = osKernelGetTickCount();
 	/* Infinite loop */
 	for (;;) {
-		float temp, hum;
+			int ti = (int)temperature;
+			int tf = (int)((temperature - ti) * 10);
+			int hi = (int)humidity;
+			int hf = (int)((humidity - hi) * 10);
 
-		temp = temperature;
-		hum = humidity;
+			switch (display_mode) {
+			case DISPLAY_ALL:
+				sprintf(lcd_buf, "Temp: %d.%d C", ti, tf);
+				lcd_gotoxy(&lcd, 0, 0);
+				lcd_puts(&lcd, lcd_buf);
 
-		int temp_int = (int) temp;
-		int temp_frac = (int) ((temp - temp_int) * 10);
-		int hum_int = (int) hum;
-		int hum_frac = (int) ((hum - hum_int) * 10);
+				sprintf(lcd_buf, "Hum:  %d.%d %%", hi, hf);
+				lcd_gotoxy(&lcd, 0, 1);
+				lcd_puts(&lcd, lcd_buf);
+				break;
 
-		sprintf(lcd_buf, "Temp: %d.%d C", temp_int, temp_frac);
-		lcd_gotoxy(&lcd, 0, 0);
-		lcd_puts(&lcd, lcd_buf);
+			case DISPLAY_TEMP:
+				sprintf(lcd_buf, "Temp: %d.%d C", ti, tf);
+				lcd_gotoxy(&lcd, 0, 0);
+				lcd_puts(&lcd, lcd_buf);
 
-		sprintf(lcd_buf, "Hum:  %d.%d %%", hum_int, hum_frac);
-		lcd_gotoxy(&lcd, 0, 1);
-		lcd_puts(&lcd, lcd_buf);
+				lcd_gotoxy(&lcd, 0, 1);
+				lcd_puts(&lcd, "                "); // Clear dòng 2
+				break;
 
-		osDelay(2000);
+			case DISPLAY_HUMID:
+				sprintf(lcd_buf, "Hum:  %d.%d %%", hi, hf);
+				lcd_gotoxy(&lcd, 0, 0);
+				lcd_puts(&lcd, lcd_buf);
+
+				lcd_gotoxy(&lcd, 0, 1);
+				lcd_puts(&lcd, "                "); // Clear dòng 2
+				break;
+			}
+
+		osDelayUntil(LastWakeTime + pdMS_TO_TICKS(500));
+		LastWakeTime = osKernelGetTickCount();
 		taskYIELD();
 	}
   /* USER CODE END StartLCDTask */
@@ -571,6 +591,7 @@ void StartUARTTxTask(void *argument)
 {
   /* USER CODE BEGIN StartUARTTxTask */
 	char uart_buf[64];
+	TickType_t LastWakeTime = osKernelGetTickCount();
 	/* Infinite loop */
 	for (;;) {
 		float temp = temperature;
@@ -586,7 +607,8 @@ void StartUARTTxTask(void *argument)
 
 		HAL_UART_Transmit(&huart1, (uint8_t*) uart_buf, strlen(uart_buf), 100);
 
-		osDelay(5000);  // Gửi mỗi 1 giây
+		osDelayUntil(LastWakeTime + pdMS_TO_TICKS(5000));
+		LastWakeTime = osKernelGetTickCount();
 		taskYIELD();
 	}
   /* USER CODE END StartUARTTxTask */
@@ -602,6 +624,7 @@ void StartUARTTxTask(void *argument)
 void StartUARTRxTask(void *argument)
 {
   /* USER CODE BEGIN StartUARTRxTask */
+//	TickType_t LastWakeTime = osKernelGetTickCount();
 	/* Infinite loop */
 	for (;;) {
 		if (command_ready) {
@@ -658,7 +681,8 @@ void StartUARTRxTask(void *argument)
 
 			osMutexRelease(uartMutexHandle);
 		}
-//		osDelay(50);
+//		osDelayUntil(LastWakeTime + pdMS_TO_TICKS(50));
+//		LastWakeTime = osKernelGetTickCount();
 		taskYIELD();
 	}
   /* USER CODE END StartUARTRxTask */

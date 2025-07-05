@@ -7,8 +7,8 @@
 ../Core/Src/main.c:455:13:MX_GPIO_Init	1
 ../Core/Src/main.c:483:6:HAL_UART_RxCpltCallback	4
 ../Core/Src/main.c:507:6:StartSensorTask	2
-../Core/Src/main.c:533:6:StartLCDTask	1
-../Core/Src/main.c:570:6:StartUARTTxTask	1
-../Core/Src/main.c:602:6:StartUARTRxTask	19
-../Core/Src/main.c:674:6:StartMotorTask	3
-../Core/Src/main.c:706:6:Error_Handler	1
+../Core/Src/main.c:534:6:StartLCDTask	5
+../Core/Src/main.c:590:6:StartUARTTxTask	1
+../Core/Src/main.c:624:6:StartUARTRxTask	19
+../Core/Src/main.c:698:6:StartMotorTask	3
+../Core/Src/main.c:730:6:Error_Handler	1

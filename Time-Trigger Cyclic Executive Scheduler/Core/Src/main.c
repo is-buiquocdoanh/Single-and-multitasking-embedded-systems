@@ -281,12 +281,6 @@ int main(void)
   while (1)
   {
 	loop_scheduler();     // chạy 1 frame
-	HAL_Delay(25);        // 25ms/frame
-
-//	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
-//	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-//	  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 100);
-//	  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
 
     /* USER CODE END WHILE */
 
